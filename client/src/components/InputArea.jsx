@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const InputArea = () => {
+const InputArea = ({ onAddTodo, responseMessage }) => {
   const [input, setInput] = useState("");
 
   const handleChange = (e) => {
@@ -12,17 +12,17 @@ const InputArea = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setInput("");
+    onAddTodo(input);
 
-    console.log("submitted");
+    setInput("");
   };
 
   return (
-    <form className="flex items-center gap-4 p-3" action="/add" method="post">
+    <form className="flex items-center gap-4 p-3">
       <input
         type="text"
         name="newItem"
-        placeholder="New Item"
+        placeholder={responseMessage ? responseMessage : "New Item"}
         autoComplete="off"
         autoFocus={true}
         onChange={handleChange}

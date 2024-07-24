@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const List = ({ id, title }) => {
+const List = ({ id, title, onDeleteTodo, onEditTodo }) => {
   const [openEdit, setOpenEdit] = useState(true);
   const [inputValue, setInputValue] = useState(title);
 
@@ -15,7 +15,13 @@ const List = ({ id, title }) => {
 
     setOpenEdit(true);
 
-    console.log("Submitted");
+    onEditTodo(inputValue, id);
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+
+    onDeleteTodo(id);
   };
 
   return (
@@ -25,7 +31,7 @@ const List = ({ id, title }) => {
         {title}
       </p>
 
-      <form className="flex" action="/edit" method="post">
+      <form className="flex">
         <input type="hidden" name="updateItemId" value={id} />
 
         {/* Update list */}
@@ -61,9 +67,13 @@ const List = ({ id, title }) => {
         </button>
 
         {/* Delete button */}
-        <form action="/delete" method="post">
+        <form>
           <input hidden={true} type="checkbox" name="deleteItemId" value={id} />
-          <button type="submit" className="text-xl text-primaryColor">
+          <button
+            type="submit"
+            className="text-xl text-primaryColor"
+            onClick={handleDelete}
+          >
             <i className="bx bxs-trash"></i>
           </button>
         </form>
